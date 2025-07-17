@@ -1,0 +1,63 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: nouchka/sqlite3
+        ports:
+          - 8080:8080
+        volumes:
+          - ./backend/database:/data
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: Run backend migrations
+        working-directory: ./backend
+        run: npx prisma migrate deploy
+
+      - name: Build backend Docker image
+        working-directory: ./backend
+        run: docker build -t my-backend .
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Build frontend Docker image
+        working-directory: ./frontend
+        run: docker build -t my-frontend .
+
+      - name: Run Docker Compose
+        run: docker-compose up -d
+
+      - name: Run tests
+        run: |
+          # Add commands to run your tests here
+          echo "Running tests..." 
+
+      - name: Deploy
+        run: |
+          # Add your deployment commands here
+          echo "Deploying application..." 

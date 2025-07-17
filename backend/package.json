@@ -1,0 +1,30 @@
+{
+  "name": "my-fullstack-app-backend",
+  "version": "1.0.0",
+  "main": "src/app.ts",
+  "scripts": {
+    "dev": "ts-node src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "migrate": "prisma migrate dev",
+    "generate": "prisma generate",
+    "nodemon": "nodemon"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.11.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "prisma": "^6.11.1",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
